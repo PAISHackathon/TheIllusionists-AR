@@ -23,12 +23,12 @@
     };
 
     function initializeObject(imgObj)
-    {
+    { 
       imgObj.x = 0;
       imgObj.y = 0;
       imgObj.text = "";
       imgObj.img = new Image();
-      imgObj.redrawHandler = null;
+      imgObj.img.src = "";
     }
 
     function startDraw() {
@@ -43,29 +43,26 @@
     function redraw()
     {
       ctx.clearRect(0, 0, height, width)
-      
       ctx.drawImage(imgObject.img, imgObject.x, imgObject.y);
       ctx.fillText(imgObject.text,imgObject.x + 34,imgObject.y + 50);
       console.log(getCoordinate());
     }
 
     //For external call
-    function setImageObject(extX, extY, text, imgAddress)
+    //object consist of {x,y,text,src}
+    function setImageObject(object)
     {
-      imgObject.x = extX;
-      imgObject.y = extY;
-      if (text)
+      imgObject.x = object.x;
+      imgObject.y = object.y;
+
+      if (object.src)
       {
-        imgObject.text = text;
+        imgObject.img.src = object.src;
       }
-      if (imgObject.img && imgObject.img.src != imgAddress)
+
+      if (object.text)
       {
-        if (imgObject.redrawHandler)
-        {
-          clearInterval(imgObject.redrawHandler)
-        }
-        imgObject.img.src = imgAddress;
-        imgObject.redrawHandler = setInterval(redraw, 18);
+        imgObject.text = object.text;
       }
     }
 
@@ -88,7 +85,14 @@
       {
         tempy = 0;
       }
-      setImageObject(tempx, tempy, "Shoot!", "image1.png");
+
+      //Object example
+      var iobj = {}
+      iobj.x = tempx;
+      iobj.y = tempy;
+      iobj.text = "text"
+      iobj.src = "image1.png"
+      setImageObject(iobj);
     }
   </script>
   </body>
