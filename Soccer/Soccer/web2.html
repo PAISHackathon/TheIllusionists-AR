@@ -10,14 +10,14 @@
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
   </head>
   <body style="background-color:transparent;">
-    <canvas id="canvassample" width="500" height="500"></canvas>
+    <canvas id="canvassample" width="100%" height="100%"></canvas>
     <script>
     var imgObjects = []; 
     var ctx = null;
     var arObject = null;
     var step = 0;
-    const height = 500;
-    const width = 500;
+    var height = 500;
+    var width = 500;
     onload = function() {
       imgObjects.push(new WVImageTextObject());
       setupContext();
@@ -40,20 +40,20 @@
       obj.corners[0].y = 0;
 
       obj.corners[1] = {};
-      obj.corners[1].x = 450;
+      obj.corners[1].x = 1;
       obj.corners[1].y = 0;
 
       obj.corners[2] = {};
-      obj.corners[2].x = 450;
-      obj.corners[2].y = 450;
+      obj.corners[2].x = 1;
+      obj.corners[2].y = 1;
 
       obj.corners[3] = {};
       obj.corners[3].x = 0;
-      obj.corners[3].y = 450;
+      obj.corners[3].y = 1;
 
       obj.center = {};
-      obj.center.x = 200;
-      obj.center.y = 200;
+      obj.center.x = 0.5;
+      obj.center.y = 0.5;
 
       setARObject(obj);
     }
@@ -83,10 +83,9 @@
         this.x += xDelta;
         this.y += yDelta;
         this.mobileFrame --;
-        console.log("mobileframe:" + this.mobileFrame);
       }
       ctx.drawImage(this.img, this.x, this.y);
-      ctx.fillText(this.text,this.x + 34,this.y + 50);
+      ctx.fillText(this.text,this.x + 15,this.y + 50);
     };
 
     //For external call
@@ -130,6 +129,10 @@
       var c = document.getElementById("canvassample");
       ctx = c.getContext('2d');
       ctx.font = "16px Arial";
+      ctx.canvas.width  = window.innerWidth;
+      ctx.canvas.height = window.innerHeight;
+      width = window.innerWidth;
+      height = window.innerHeight;
     }
 
     //frame update
@@ -141,7 +144,7 @@
       }, this);
     }
 
-    //currently taking 4 corners as corners[1-4](clockwise) {x, y} and center{x,y} 
+    //currently taking 4 corners as corners[0-3](clockwise) {x, y} and center{x,y} 
     function setARObject(object)
     {
       arObject = object;
@@ -155,19 +158,11 @@
         iobj.text = "Motion"
         iobj.src = "image1.png"
 
-        if (step < 4)
-        {
-          iobj.x = arObject.corners[step].x;
-          iobj.y = arObject.corners[step].y;
-          step++;
-        }
-        else
-        {
-          iobj.x = arObject.center.x;
-          iobj.y = arObject.center.y;
-          step = 0;
-        }
+        iobj.x = arObject.center.x;
+        iobj.y = arObject.center.y;
 
+        iobj.x = iobj.x * (width - 50);
+        iobj.y = iobj.y * (height - 50);
         imgObjects[0].setObjectMotion(iobj);
     }
   </script>
