@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Language" content="ja" />
+        <meta http-equiv="Content-Style-Type" content="text/css" />
+        <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    </head>
+    <body style="background-color:transparent;">
+        <canvas id="canvassample" width="100%" height="100%"></canvas>
+        <script>
+            var ball = new Image();
+            var ctx = null;
+        	var height;
+            var width;
+            var phi = 0;
+            
+            var onload = function() {
+                var c = document.getElementById("canvassample");
+                ctx = c.getContext('2d');
+                ctx.canvas.width  = window.innerWidth;
+                ctx.canvas.height = window.innerHeight;
+                
+                width = window.innerWidth;
+                height = window.innerHeight;
+                
+                ball.src = "image1.png"
+                
+                
+            };
+        
+        
+        function setARObject(ar)
+        {
+            phi += 3.14 / 180 * 10;
+            
+            var x = width * ar.center.x + width / 3 *  Math.abs(Math.sin(phi));
+            var y = width * ar.center.y;
+            
+            var scale = (1 - ar.center.x / width);
+            
+            ctx.clearRect(0, 0, width, height);
+            ctx.drawImage(ball, 0, 0, ball.width, ball.height, x - scale * ball.width / 2, y - scale * ball.height / 2, scale * ball.width, scale * ball.height);
+        }
+         </script>
+    </body>
+</html>
