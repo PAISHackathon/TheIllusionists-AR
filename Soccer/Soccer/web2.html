@@ -21,7 +21,7 @@
     onload = function() {
       imgObjects.push(new WVImageTextObject());
       setupContext();
-//      experimentalInitialize();
+      experimentalInitialize();
 
       imgObjects[0].text = "motion";
       imgObjects[0].img.src = "image1.png"
@@ -128,9 +128,9 @@
     function setupContext() {
       var c = document.getElementById("canvassample");
       ctx = c.getContext('2d');
-      ctx.font = "16px Arial";
       ctx.canvas.width  = window.innerWidth;
       ctx.canvas.height = window.innerHeight;
+      ctx.font = "16px Arial";
       width = window.innerWidth;
       height = window.innerHeight;
     }
@@ -161,8 +161,8 @@
         iobj.x = arObject.center.x;
         iobj.y = arObject.center.y;
 
-        iobj.x = iobj.x * (width - 50);
-        iobj.y = iobj.y * (height - 50);
+        iobj.x = iobj.x * width;
+        iobj.y = iobj.y * width;
         imgObjects[0].setObject(iobj);
     }
   </script>
