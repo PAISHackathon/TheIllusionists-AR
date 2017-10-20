@@ -39,7 +39,7 @@
             var x = width * ar.center.x + width / 3 *  Math.abs(Math.sin(phi));
             var y = width * ar.center.y;
             
-            var scale = (1 - ar.center.x / width);
+            var scale = 1 - ar.center.x;
             
             ctx.clearRect(0, 0, width, height);
             ctx.drawImage(ball, 0, 0, ball.width, ball.height, x - scale * ball.width / 2, y - scale * ball.height / 2, scale * ball.width, scale * ball.height);
