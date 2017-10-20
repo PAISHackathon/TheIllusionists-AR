@@ -14,15 +14,47 @@
     <script>
     var imgObjects = []; 
     var ctx = null;
+    var arObject = null;
+    var step = 0;
     const height = 500;
     const width = 500;
     onload = function() {
       imgObjects.push(new WVImageTextObject());
       setupContext();
-      setInterval(redrawAll, 18);
-      setInterval(autoCoordinate, 18) //remove for actual implementation
+      experimentalInitialize();
 
+      setInterval(redrawAll, 18);
+      setInterval(autoCoordinate, 1000) //remove for actual implementation
     };
+
+    //testing purpose only
+    function experimentalInitialize()
+    {
+      var obj = {};
+      obj.corners = [];
+
+      obj.corners[0] = {};
+      obj.corners[0].x = 0;
+      obj.corners[0].y = 0;
+
+      obj.corners[1] = {};
+      obj.corners[1].x = 450;
+      obj.corners[1].y = 0;
+
+      obj.corners[2] = {};
+      obj.corners[2].x = 450;
+      obj.corners[2].y = 450;
+
+      obj.corners[3] = {};
+      obj.corners[3].x = 0;
+      obj.corners[3].y = 450;
+
+      obj.center = {};
+      obj.center.x = 200;
+      obj.center.y = 200;
+
+      setARObject(obj);
+    }
 
 //-----------------WVImageObject--------------------------------------
     function WVImageTextObject() {
@@ -49,7 +81,7 @@
         this.x += xDelta;
         this.y += yDelta;
         this.mobileFrame --;
-        console.log(this.mobileFrame);
+        console.log("mobileframe:" + this.mobileFrame);
       }
       ctx.drawImage(this.img, this.x, this.y);
       ctx.fillText(this.text,this.x + 34,this.y + 50);
@@ -107,43 +139,34 @@
       }, this);
     }
 
+    //currently taking 4 corners as corners[1-4](clockwise) {x, y} and center{x,y} 
+    function setARObject(object)
+    {
+      arObject = object;
+    }
+
 
     //testing coordinate function
     function autoCoordinate()
     {
-      var tempx = imgObjects[0].x + 5;
-      var tempy = imgObjects[0].y;
-      if (imgObjects[0].x > 500)
-      {
-        tempy = imgObjects[0].y + 10;
-        tempx = 0;
-      }
-      if (imgObjects[0].y > 500)
-      {
-        tempy = 0;
-      }
-
-      //Object example
-      var iobj = {}
-      iobj.x = tempx;
-      iobj.y = tempy;
-      iobj.text = "text"
-      iobj.src = "image1.png"
-      imgObjects[0].setObject(iobj);
-
-
-      //Second one
-      if (imgObjects.length < 2)
-      {
-        imgObjects.push(new WVImageTextObject());
-        //Object example
         var iobj = {}
-        iobj.x = 400;
-        iobj.y = 300;
         iobj.text = "Motion"
         iobj.src = "image1.png"
-        imgObjects[1].setObjectMotion(iobj);
-      }
+
+        if (step < 4)
+        {
+          iobj.x = arObject.corners[step].x;
+          iobj.y = arObject.corners[step].y;
+          step++;
+        }
+        else
+        {
+          iobj.x = arObject.center.x;
+          iobj.y = arObject.center.y;
+          step = 0;
+        }
+
+        imgObjects[0].setObjectMotion(iobj);
     }
   </script>
   </body>
