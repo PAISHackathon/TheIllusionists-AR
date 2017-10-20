@@ -25,8 +25,8 @@
 
       imgObjects[0].text = "motion";
       imgObjects[0].img.src = "image1.png"
-      setInterval(redrawAll, 18);
-      setInterval(autoCoordinate, 18) //remove for actual implementation
+      setInterval(redrawAll, 1);
+      setInterval(autoCoordinate, 1) //remove for actual implementation
     };
 
     //testing purpose only
@@ -112,9 +112,9 @@
       this.targety = object.y;
       if (this.mobileFrame <= 0)
       {        
-        this.mobileFrame = 10;
+        this.mobileFrame = 60;
         step++;
-        if (step > 3)
+        if (step > 4)
         {
           step = 0;
         }
@@ -164,12 +164,18 @@
         var iobj = {}
         iobj.text = "Motion"
         iobj.src = "image1.png"
-
-        iobj.x = arObject.center.x;
-        iobj.y = arObject.center.y;
+        if (step < 4)
+        {
+          iobj.x = arObject.corners[step].x;
+          iobj.y = arObject.corners[step].y;
+        }
+        else
+        {
+            iobj.x = arObject.center.x;
+            iobj.y = arObject.center.y;
+        }
         iobj.x = iobj.x * width;
         iobj.y = iobj.y * width;
-        console.log(iobj.y);
         imgObjects[0].setObjectMotion(iobj);
     }
   </script>
