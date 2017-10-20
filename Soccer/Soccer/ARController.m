@@ -88,7 +88,10 @@
         [self.arView setNeedsDisplay];
     }
     else {
-        NSString * js = [NSString stringWithFormat:@"test({x:%f,y:%f})", f->center.x, f->center.y];
+        float scale = 1. / f->height;
+        
+        
+        NSString * js = [NSString stringWithFormat:@"setARObject({center:{x:%f,y:%f},corners:[{x:%f,y:%f},{x:%f,y:%f},{x:%f,y:%f},{x:%f,y:%f}]})", scale * f->center.y, scale * f->center.x, scale * f->corners[0].y, scale * f->corners[0].x, scale * f->corners[1].y, scale * f->corners[1].x, scale * f->corners[2].y, scale * f->corners[2].x, scale * f->corners[3].y, scale * f->corners[3].x];
         [self.webView stringByEvaluatingJavaScriptFromString:js];
     }
 }
