@@ -21,12 +21,12 @@
     onload = function() {
       imgObjects.push(new WVImageTextObject());
       setupContext();
-//      experimentalInitialize();
+      experimentalInitialize();
 
       imgObjects[0].text = "motion";
       imgObjects[0].img.src = "image1.png"
-      setInterval(redrawAll, 1);
-      setInterval(autoCoordinate, 1) //remove for actual implementation
+      setInterval(redrawAll, 18);
+      setInterval(autoCoordinate, 18) //remove for actual implementation
     };
 
     //testing purpose only
@@ -112,7 +112,7 @@
       this.targety = object.y;
       if (this.mobileFrame <= 0)
       {        
-        this.mobileFrame = 60;
+        this.mobileFrame = 30;
         step++;
         if (step > 4)
         {
@@ -162,7 +162,7 @@
     function autoCoordinate()
     {
         var iobj = {}
-        iobj.text = "Motion"
+        iobj.text = "current Step is:" + step;
         iobj.src = "image1.png"
         if (step < 4)
         {
