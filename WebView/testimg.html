@@ -34,9 +34,23 @@
       this.y = 0;
       this.text = "";
       this.img = new Image();
+
+      //for motion
+      this.targetx = 0;
+      this.targety = 0;
+      this.mobileFrame = 0;
     };
 
     WVImageTextObject.prototype.redraw = function() {
+      if (this.mobileFrame > 0)
+      {
+        var xDelta = (this.targetx - this.x) / this.mobileFrame;
+        var yDelta = (this.targety - this.y) / this.mobileFrame;
+        this.x += xDelta;
+        this.y += yDelta;
+        this.mobileFrame --;
+        console.log(this.mobileFrame);
+      }
       ctx.drawImage(this.img, this.x, this.y);
       ctx.fillText(this.text,this.x + 34,this.y + 50);
     };
@@ -46,6 +60,25 @@
     WVImageTextObject.prototype.setObject = function(object) {
       this.x = object.x;
       this.y = object.y;
+
+      if (object.src)
+      {
+        this.img.src = object.src;
+      }
+
+      if (object.text)
+      {
+        this.text = object.text;
+      }
+    };
+
+    //For external call
+    //object consist of {x,y,text,src}
+    WVImageTextObject.prototype.setObjectMotion = function(object) {
+      this.targetx = object.x;
+      this.targety = object.y;
+
+      this.mobileFrame = 30;
 
       if (object.src)
       {
@@ -103,14 +136,14 @@
       if (imgObjects.length < 2)
       {
         imgObjects.push(new WVImageTextObject());
+        //Object example
+        var iobj = {}
+        iobj.x = 400;
+        iobj.y = 300;
+        iobj.text = "Motion"
+        iobj.src = "image1.png"
+        imgObjects[1].setObjectMotion(iobj);
       }
-      //Object example
-      var iobj = {}
-      iobj.x = tempy;
-      iobj.y = tempx;
-      iobj.text = "text"
-      iobj.src = "image1.png"
-      imgObjects[1].setObject(iobj);
     }
   </script>
   </body>
