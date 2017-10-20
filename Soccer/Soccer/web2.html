@@ -138,7 +138,7 @@
     //frame update
     function redrawAll()
     {
-      ctx.clearRect(0, 0, height, width)
+      ctx.clearRect(0, 0, width, height)
       imgObjects.forEach(function(element) {
         element.redraw();
       }, this);
@@ -163,7 +163,7 @@
 
         iobj.x = iobj.x * (width - 50);
         iobj.y = iobj.y * (height - 50);
-        imgObjects[0].setObjectMotion(iobj);
+        imgObjects[0].setObject(iobj);
     }
   </script>
   </body>
