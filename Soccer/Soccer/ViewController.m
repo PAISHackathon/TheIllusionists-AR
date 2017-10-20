@@ -107,6 +107,8 @@
     
     UIWebView *webView=[[UIWebView alloc]init];
     [webView loadHTMLString:html baseURL:bundleUrl];
+    webView.opaque = NO;
+    webView.backgroundColor = [UIColor clearColor];
     
     //NSString *url=@"http://www.google.com";
     //NSURL *nsurl=[NSURL URLWithString:url];

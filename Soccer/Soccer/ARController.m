@@ -82,11 +82,14 @@
 
 - (void)updateARView
 {
+    Field *f = self.field;
+    
     if (self.arView) {
         [self.arView setNeedsDisplay];
     }
     else {
-       
+        NSString * js = [NSString stringWithFormat:@"test({x:%f,y:%f})", f->center.x, f->center.y];
+        [self.webView stringByEvaluatingJavaScriptFromString:js];
     }
 }
 
