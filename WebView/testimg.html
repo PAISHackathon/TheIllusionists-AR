@@ -12,18 +12,19 @@
   <body style="background-color:transparent;">
     <canvas id="canvassample" width="500" height="500"></canvas>
     <script>
-    var imgObject = null; 
+    var imgObjects = []; 
     var ctx = null;
     const height = 500;
     const width = 500;
     onload = function() {
-      imgObject = new WVImageTextObject();
+      imgObjects.push(new WVImageTextObject());
       setupContext();
       setInterval(redrawAll, 18);
       setInterval(autoCoordinate, 18) //remove for actual implementation
 
     };
 
+//-----------------WVImageObject--------------------------------------
     function WVImageTextObject() {
         this.initialize.apply(this, arguments);
     }
@@ -57,7 +58,7 @@
       }
     };
 
-
+//---------------------Shared Functions-------------------------------------
     function setupContext() {
       var c = document.getElementById("canvassample");
       ctx = c.getContext('2d');
@@ -68,23 +69,25 @@
     function redrawAll()
     {
       ctx.clearRect(0, 0, height, width)
-      imgObject.redraw();
+      imgObjects.forEach(function(element) {
+        element.redraw();
+      }, this);
     }
 
 
     //testing coordinate function
     function autoCoordinate()
     {
-      var tempx = imgObject.x + 5;
-      var tempy = imgObject.y;
-      if (imgObject.x > 500)
+      var tempx = imgObjects[0].x + 5;
+      var tempy = imgObjects[0].y;
+      if (imgObjects[0].x > 500)
       {
-        tempy = imgObject.y + 10;
+        tempy = imgObjects[0].y + 10;
         tempx = 0;
       }
-      if (imgObject.y > 500)
+      if (imgObjects[0].y > 500)
       {
-        tempy = 0;
+        tempy[0] = 0;
       }
 
       //Object example
@@ -93,7 +96,21 @@
       iobj.y = tempy;
       iobj.text = "text"
       iobj.src = "image1.png"
-      imgObject.setObject(iobj);
+      imgObjects[0].setObject(iobj);
+
+
+      //Second one
+      if (imgObjects.length < 2)
+      {
+        imgObjects.push(new WVImageTextObject());
+      }
+      //Object example
+      var iobj = {}
+      iobj.x = tempy;
+      iobj.y = tempx;
+      iobj.text = "text"
+      iobj.src = "image1.png"
+      imgObjects[1].setObject(iobj);
     }
   </script>
   </body>
