@@ -18,12 +18,14 @@
     var step = 0;
     var height = 500;
     var width = 500;
+    var imgHeight = 100;
+    var imgWidth = 100;
     onload = function() {
       imgObjects.push(new WVImageTextObject());
       setupContext();
       experimentalInitialize();
 
-      imgObjects[0].text = "motion";
+      imgObjects[0].text = "";
       imgObjects[0].img.src = "image1.png"
       setInterval(redrawAll, 18);
       setInterval(autoCoordinate, 18) //remove for actual implementation
@@ -84,8 +86,17 @@
         this.y += yDelta;
         this.mobileFrame --;
       }
+      var rate = (1 - this.x / width);
+      var imgWidth = this.img.width;
+      var imgHeight = this.img.height;
+
+      this.img.width = this.img.width * rate;
+      this.img.height = this.img.height * rate;
+      console.log(this.img.width);
       ctx.drawImage(this.img, this.x - this.img.width / 2, this.y - this.img.height / 2);
       ctx.fillText(this.text,this.x,this.y);
+      this.img.width = imgWidth;
+      this.img.height = imgHeight;
     };
 
     //For external call
