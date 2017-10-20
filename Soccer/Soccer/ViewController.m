@@ -100,7 +100,7 @@
         [self.arController removeFromParentViewController];
     }
     
-    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"web1" ofType:@"html"];
+    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"web2" ofType:@"html"];
     NSURL *bundleUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     NSString *html = [[NSString alloc] initWithContentsOfFile:htmlPath];
 
