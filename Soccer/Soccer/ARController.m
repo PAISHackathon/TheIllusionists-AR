@@ -88,10 +88,27 @@
         [self.arView setNeedsDisplay];
     }
     else {
-        float scale = 1. / f->height;
+        CGPoint p = [self fieldToView:f->center];
+        CGPoint q[4];
         
+        for (int i = 0; i < 4; i++)
+        {
+            q[i] = [self fieldToView:f->corners[i]];
+        }
         
-        NSString * js = [NSString stringWithFormat:@"setARObject({center:{x:%f,y:%f},corners:[{x:%f,y:%f},{x:%f,y:%f},{x:%f,y:%f},{x:%f,y:%f}]})", scale * f->center.y, scale * f->center.x, scale * f->corners[0].y, scale * f->corners[0].x, scale * f->corners[1].y, scale * f->corners[1].x, scale * f->corners[2].y, scale * f->corners[2].x, scale * f->corners[3].y, scale * f->corners[3].x];
+        float w = self.view.bounds.size.width;
+        
+        p.x /= w;
+        p.y /= w;
+        
+        for (int i = 0; i < 4; i++)
+        {
+            q[i].x /= w;
+            q[i].y /= w;
+        }
+
+
+        NSString * js = [NSString stringWithFormat:@"setARObject({center:{x:%f,y:%f},corners:[{x:%f,y:%f},{x:%f,y:%f},{x:%f,y:%f},{x:%f,y:%f}]})", p.x, p.y, q[0].x, q[0].y, q[1].x, q[1].y, q[2].x, q[2].y, q[3].x, q[3].y];
         [self.webView stringByEvaluatingJavaScriptFromString:js];
     }
 }
@@ -101,6 +118,34 @@
     [self.session stopRunning];
 }
 
+- (CGPoint)fieldToView:(CGPoint)point
+{
+    float viewWidth = self.view.bounds.size.width;
+    float viewHeight = self.view.bounds.size.height;
+    float viewAspectRatio = viewWidth / viewHeight;
+    
+    float fieldWidth = (float)self.field->width;
+    float fieldHeight = (float)self.field->height;
+    float fieldAspectRatio = fieldHeight / fieldWidth;
+    
+    float scale;
+    if (fieldAspectRatio <= viewAspectRatio)
+    {
+        scale = viewWidth / fieldHeight;
+    }
+    else
+    {
+        scale = viewHeight / fieldWidth;
+    }
+    
+    float x = scale * (fieldHeight / 2. - point.y) + viewWidth / 2.;
+    float y = scale * (point.x - fieldWidth / 2.) + viewHeight / 2.;
+    
+    //float x = scale * (point.x - fieldWidth / 2.) + viewWidth;
+    //float y = scale * (point.y - fieldHeight / 2.) + viewHeight / 2.;
+    
+    return CGPointMake(x, y);
+}
 
 @end
 

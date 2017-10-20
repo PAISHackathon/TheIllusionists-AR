@@ -11,6 +11,7 @@
 @property (nonatomic) UIButton *fieldButton;
 @property (nonatomic) UIButton *playersButton;
 @property (nonatomic) UIButton *webButton;
+@property (nonatomic) UIButton *bounceButton;
 
 @end
 
@@ -28,22 +29,30 @@
     [self.fieldButton addTarget:self action:@selector(fieldButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.fieldButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.fieldButton setTitle:@"Field" forState:UIControlStateNormal];
-    self.fieldButton.frame = CGRectMake(0, 100, width, 100);
+    self.fieldButton.frame = CGRectMake(0, 100, width, 50);
     [self.view addSubview:self.fieldButton];
     
     self.playersButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.playersButton addTarget:self action:@selector(playersButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.playersButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.playersButton setTitle:@"Players" forState:UIControlStateNormal];
-    self.playersButton.frame = CGRectMake(0, 200, width, 100);
+    self.playersButton.frame = CGRectMake(0, 150, width, 50);
     [self.view addSubview:self.playersButton];
     
     self.webButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.webButton addTarget:self action:@selector(webButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.webButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [self.webButton setTitle:@"Web" forState:UIControlStateNormal];
-    self.webButton.frame = CGRectMake(0, 300, width, 100);
+    [self.webButton setTitle:@"Ball" forState:UIControlStateNormal];
+    self.webButton.frame = CGRectMake(0, 200, width, 50);
     [self.view addSubview:self.webButton];
+    
+    self.bounceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.bounceButton addTarget:self action:@selector(bounceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.bounceButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.bounceButton setTitle:@"Bounce" forState:UIControlStateNormal];
+    self.bounceButton.frame = CGRectMake(0, 250, width, 50);
+    [self.view addSubview:self.bounceButton];
+
     
 }
 
@@ -124,6 +133,41 @@
     [self.view addSubview:self.arController.view];
     [self.arController didMoveToParentViewController:self];
 }
+
+-(void) bounceButtonClicked:(UIButton*)sender
+{
+    if (self.arController)
+    {
+        [self.arController cleanup];
+        [self.arController.view removeFromSuperview];
+        [self.arController removeFromParentViewController];
+    }
+    
+    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"bounce" ofType:@"html"];
+    NSURL *bundleUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    NSString *html = [[NSString alloc] initWithContentsOfFile:htmlPath];
+    
+    
+    UIWebView *webView=[[UIWebView alloc]init];
+    [webView loadHTMLString:html baseURL:bundleUrl];
+    webView.opaque = NO;
+    webView.backgroundColor = [UIColor clearColor];
+    
+    //NSString *url=@"http://www.google.com";
+    //NSURL *nsurl=[NSURL URLWithString:url];
+    //NSURLRequest *nsrequest=[NSURLRequest requestWithURL:nsurl];
+    //[webView loadRequest:nsrequest];
+    
+    self.arController = [[ARController alloc] init];
+    self.arController.field = self.field;
+    self.arController.webView = webView;
+    
+    [self addChildViewController:self.arController];
+    [self.arController.view setFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view addSubview:self.arController.view];
+    [self.arController didMoveToParentViewController:self];
+}
+
 
 
 - (void)didReceiveMemoryWarning {

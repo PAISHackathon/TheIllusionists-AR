@@ -23,6 +23,7 @@
 		E7AAEC811F99B3640019A44A /* players in Resources */ = {isa = PBXBuildFile; fileRef = E7AAEC801F99B3640019A44A /* players */; };
 		E7AAEC831F99B4070019A44A /* web2.html in Resources */ = {isa = PBXBuildFile; fileRef = E7AAEC821F99B4070019A44A /* web2.html */; };
 		E7AAEC851F99BC370019A44A /* image1.png in Resources */ = {isa = PBXBuildFile; fileRef = E7AAEC841F99BC370019A44A /* image1.png */; };
+		E7AAEC871F99C84A0019A44A /* bounce.html in Resources */ = {isa = PBXBuildFile; fileRef = E7AAEC861F99C84A0019A44A /* bounce.html */; };
 		E7C434471F999A07004C39D0 /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C434461F999A07004C39D0 /* PlayerView.m */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,7 @@
 		E7AAEC801F99B3640019A44A /* players */ = {isa = PBXFileReference; lastKnownFileType = folder; path = players; sourceTree = "<group>"; };
 		E7AAEC821F99B4070019A44A /* web2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = web2.html; sourceTree = "<group>"; };
 		E7AAEC841F99BC370019A44A /* image1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image1.png; sourceTree = "<group>"; };
+		E7AAEC861F99C84A0019A44A /* bounce.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bounce.html; sourceTree = "<group>"; };
 		E7C434461F999A07004C39D0 /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
 		E7C434481F999A17004C39D0 /* PlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,6 +131,7 @@
 				E76286631F9992F500F3D454 /* Images.xcassets */,
 				E76286651F9992F500F3D454 /* LaunchScreen.xib */,
 				E76286561F9992F500F3D454 /* Supporting Files */,
+				E7AAEC861F99C84A0019A44A /* bounce.html */,
 			);
 			path = Soccer;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7AAEC871F99C84A0019A44A /* bounce.html in Resources */,
 				E76286891F99955B00F3D454 /* shapes.csv in Resources */,
 				E7AAEC851F99BC370019A44A /* image1.png in Resources */,
 				E7AAEC831F99B4070019A44A /* web2.html in Resources */,
