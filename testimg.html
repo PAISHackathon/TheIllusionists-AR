@@ -1,0 +1,96 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="ja" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  </head>
+  <body style="background-color:transparent;">
+    <canvas id="canvassample" width="500" height="500"></canvas>
+    <script>
+    var imgObject = {}; 
+    var img = null;
+    var ctx = null;
+    const height = 500;
+    const width = 500;
+    onload = function() {
+      initializeObject(imgObject)
+      startDraw();
+    };
+
+    function initializeObject(imgObj)
+    {
+      imgObj.x = 0;
+      imgObj.y = 0;
+      imgObj.text = "";
+      imgObj.img = new Image();
+      imgObj.redrawHandler = null;
+    }
+
+    function startDraw() {
+      var c = document.getElementById("canvassample");
+      ctx = c.getContext('2d');
+      ctx.font = "16px Arial";
+      setInterval(redraw, 18);
+      setInterval(autoCoordinate, 18) //remove for actual implementation
+    }
+
+    //frame update
+    function redraw()
+    {
+      ctx.clearRect(0, 0, height, width)
+      
+      ctx.drawImage(imgObject.img, imgObject.x, imgObject.y);
+      ctx.fillText(imgObject.text,imgObject.x + 34,imgObject.y + 50);
+      console.log(getCoordinate());
+    }
+
+    //For external call
+    function setImageObject(extX, extY, text, imgAddress)
+    {
+      imgObject.x = extX;
+      imgObject.y = extY;
+      if (text)
+      {
+        imgObject.text = text;
+      }
+      if (imgObject.img && imgObject.img.src != imgAddress)
+      {
+        if (imgObject.redrawHandler)
+        {
+          clearInterval(imgObject.redrawHandler)
+        }
+        imgObject.img.src = imgAddress;
+        imgObject.redrawHandler = setInterval(redraw, 18);
+      }
+    }
+
+    function getCoordinate()
+    {
+      return {"x": imgObject.x, "y": imgObject.y}
+    }
+
+    //testing coordinate function
+    function autoCoordinate()
+    {
+      var tempx = imgObject.x + 5;
+      var tempy = imgObject.y;
+      if (imgObject.x > 500)
+      {
+        tempy = imgObject.y + 10;
+        tempx = 0;
+      }
+      if (imgObject.y > 500)
+      {
+        tempy = 0;
+      }
+      setImageObject(tempx, tempy, "Shoot!", "image1.png");
+    }
+  </script>
+  </body>
+</html>
+
