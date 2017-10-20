@@ -21,7 +21,7 @@
     onload = function() {
       imgObjects.push(new WVImageTextObject());
       setupContext();
-//      experimentalInitialize();
+      experimentalInitialize();
 
       imgObjects[0].text = "motion";
       imgObjects[0].img.src = "image1.png"
@@ -84,7 +84,7 @@
         this.y += yDelta;
         this.mobileFrame --;
       }
-      ctx.drawImage(this.img, this.x, this.y);
+      ctx.drawImage(this.img, this.x - this.img.width / 2, this.y - this.img.height / 2);
       ctx.fillText(this.text,this.x,this.y);
     };
 
