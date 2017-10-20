@@ -21,12 +21,12 @@
     onload = function() {
       imgObjects.push(new WVImageTextObject());
       setupContext();
-      //experimentalInitialize();
+      experimentalInitialize();
 
       imgObjects[0].text = "motion";
       imgObjects[0].img.src = "image1.png"
       setInterval(redrawAll, 18);
-      setInterval(autoCoordinate, 200) //remove for actual implementation
+      setInterval(autoCoordinate, 18) //remove for actual implementation
     };
 
     //testing purpose only
@@ -110,8 +110,15 @@
     WVImageTextObject.prototype.setObjectMotion = function(object) {
       this.targetx = object.x;
       this.targety = object.y;
-
-      this.mobileFrame = 10;
+      if (this.mobileFrame <= 0)
+      {        
+        this.mobileFrame = 10;
+        step++;
+        if (step > 3)
+        {
+          step = 0;
+        }
+      }
 
       if (object.src)
       {
@@ -160,9 +167,9 @@
 
         iobj.x = arObject.center.x;
         iobj.y = arObject.center.y;
-
         iobj.x = iobj.x * width;
         iobj.y = iobj.y * width;
+        console.log(iobj.y);
         imgObjects[0].setObjectMotion(iobj);
     }
   </script>
